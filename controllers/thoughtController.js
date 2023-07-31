@@ -23,6 +23,14 @@ const getThought = async (req, res, next ) => {
 const createThought = async (req, res) => {
     try {
         const thought = await Thought.create(req.body);
+        const user = await User.findOneAndUpdate(
+            { _id: req.body.userId },
+            {$push: {thoughts: thought._id}},
+            {new: true}
+        )
+        if(!user){
+            throw new Error('User not found');
+        }
         res.json(thought);
     } catch (err) {
         res.status(500).json(err);
