@@ -1,9 +1,10 @@
 const express = require('express');
-const db = require("./config/connection")
-// const routes = require("./routes")
+const dotenv = require("dotenv").config();
+const db = require("./config/connection");
+const routes = require("./routes");
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3000;
 
 // const dbName = 'socialNetDB';
 
