@@ -35,7 +35,7 @@ const createUser =  async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const updatedUser = await User.findOneAndUpdate(
-            { _id: req.params.userId },
+            { _id: req.params.idd },
             req.body,
             { new: true },
         );
