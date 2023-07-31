@@ -9,11 +9,11 @@ const getThoughts = asyncHandler(async (req, res) => {
 
 const getThought = async (req, res, next ) => {
     try {
-        const user = await User.findOne({ _id: req.params.id }).select("-__v");
-        if(!user) {
-            return res.status(404).json({ message: "No user with that id"});
+        const thought = await Thought.findOne({ _id: req.params.id }).select("-__v");
+        if(!thought) {
+            return res.status(404).json({ message: "No thought with that id"});
         }
-        res.json(user)
+        res.json(thought)
     } catch(err) {
         next(err);
     }
@@ -59,11 +59,30 @@ const deleteThought = async (req, res) => {
     }
 };
 
+//add rection
+const addReaction = async (req, res) => {
+    try{
+        const thought = await Thought.findOneAndUpdate(
+            { _id: req.params.id },
+            { $addToSet: { reactions: req.body }},
+            { runValidators: true, new: true },
+        );
+        if(!thought){
+            return res.status(404).json ({message: 'No thought with id'})
+        }
+        console.log(req.params)
+        req.json(thought)
+        } catch (err) {
+            res.status(500).json(err)
+        }
+    }
+
 module.exports = {
     getThoughts,
     getThought,
     createThought,
     updateThought,
     updateThought,
-    deleteThought
+    deleteThought,
+    addReaction
 }
