@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const { User, Thought } = require("../models")
+const { User } = require("../models")
 
 
 const getUsers = asyncHandler( async (req, res) => {
@@ -9,7 +9,7 @@ const getUsers = asyncHandler( async (req, res) => {
 });
 
 //get one user
-const getSingleUser = async (req, res) => {
+const getSingleUser = async (req, res, next ) => {
     try{
         const user = await User.findOne({ _id: req.params.id }).select("-__v");
         if (!user){
@@ -17,7 +17,7 @@ const getSingleUser = async (req, res) => {
         }
         res.json(user)
     } catch {
-        res.status(500).json(err)
+        next(err);
     }
 };
 
