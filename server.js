@@ -3,7 +3,7 @@ const dotenv = require("dotenv").config();
 const db = require("./config/connection");
 const routes = require("./routes");
 //route response error middleware
-const { errorHandler } = require("./middleware/errorMiddleware");
+// const { errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
-app.use(errorHandler);
+// app.use(errorHandler);
 
 db.once('open', () => {
     app.listen(PORT, () => {
