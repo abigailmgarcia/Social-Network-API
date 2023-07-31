@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
-const { User } = require("../models")
+const { User, Thought } = require("../models")
+const mongoose = require('mongoose');
+const { thoughts } = require("../utils/data");
 
 
 const getUsers = asyncHandler( async (req, res) => {
@@ -81,21 +83,26 @@ const addFriend = async (req, res) => {
 };
 
 //delete friend
-const deleteReaction = async (req, res) => {
+const deleteFriend = async (req, res) => {
     try {
-        const thought = await Thought.findOneAndUpdate(
-            { _id: req.params.id },
-            {$pull: { reactions: { reactionId: req.params.reactionId }}},
-            { runValidators: true, new: true }
+        const { id, friendId } = req.params;
+
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { $pull: { friends: friendId }},
+            { new: true }
         );
-        if(!thought){
-            return res.status(404).json({ message: "No thought with that id"})
+        console.log(req.params)
+        if(!updatedUser){
+            return res.status(404).json({ message: "User not found"});
         }
-        res.json(thought)
-    } catch(err) {
+        res.json(updatedUser);
+    } catch (err) {
+        console.error(err);
         res.status(500).json(err);
     }
-}
+};
+
 module.exports = {
     getUsers,
     getSingleUser,
@@ -103,4 +110,5 @@ module.exports = {
     updateUser,
     deleteUser,
     addFriend,
+    deleteFriend
 };
