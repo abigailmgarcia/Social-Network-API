@@ -1,3 +1,4 @@
+const { errorHandler } = require("../../middleware/errorMiddleware");
 const router = require("express").Router();
 const { 
     getUsers,
