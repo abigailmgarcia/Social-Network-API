@@ -55,4 +55,7 @@ const reactionSchema = new Schema({
             return new Date(timestamp).toLocaleString();
         }
     }
-})
+});
+
+const Thought = model("Thought", thoughtSchema )
+module.exports = Thought;
