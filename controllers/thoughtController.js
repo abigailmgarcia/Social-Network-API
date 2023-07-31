@@ -40,16 +40,16 @@ const createThought = async (req, res) => {
 //put 
 const updateThought = async (req, res) => {
     try {
-        const updatedUser = await User.findOneAndUpdate(
-            { _id: req.params.userId },
+        const updateThought = await Thought.findOneAndUpdate(
+            { _id: req.params.id },
             req.body,
             { new: true },
         );
 
-        if(!updatedUser) {
-            res.status(404).json({ message: "No user with this id" });
+        if(!updateThought) {
+            res.status(404).json({ message: "No thought with this id" }); 
         }
-        res.json(updatedUser);
+        res.json(updateThought);
     } catch(err) {
         res.status(500).json(err);
     }
