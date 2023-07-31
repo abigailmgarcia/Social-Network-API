@@ -70,12 +70,30 @@ const addReaction = async (req, res) => {
         if(!thought){
             return res.status(404).json ({message: 'No thought with id'})
         }
-        console.log(req.params)
+        // console.log(req.params)
         req.json(thought)
         } catch (err) {
             res.status(500).json(err)
         }
     }
+
+//delete reaction
+const deleteReaction = async (req, res) => {
+    try{
+        const thought = await Thought.findOneAndUpdate(
+            { _id: req.params.id },
+            { $pull: { reactions: { reactionId: req.params.reactionId }}},
+            { runValidators: true, new: true },
+        );
+        if(!thought) {
+            return res.status(404).json({ message: "No thought with that id"})
+        } 
+        res.json(thought)
+    } catch (err){
+        res.status(500).json(err);
+    }
+};
+
 
 module.exports = {
     getThoughts,
@@ -84,5 +102,6 @@ module.exports = {
     updateThought,
     updateThought,
     deleteThought,
-    addReaction
+    addReaction,
+    deleteReaction
 }
