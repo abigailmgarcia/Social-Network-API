@@ -37,7 +37,7 @@ const createThought = async (req, res) => {
     }
 };
 
-//put 
+//put update thought
 const updateThought = async (req, res) => {
     try {
         const updateThought = await Thought.findOneAndUpdate(
@@ -78,8 +78,12 @@ const addReaction = async (req, res) => {
         if(!thought){
             return res.status(404).json ({message: 'No thought with id'})
         }
+        const { reactions } = thought;
+        res.json({
+            message: 'Reaction added successfully',
+            reactions: reactions,
+        });
         // console.log(req.params)
-        req.json(thought)
         } catch (err) {
             res.status(500).json(err)
         }

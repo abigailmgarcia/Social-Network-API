@@ -1,11 +1,10 @@
 const asyncHandler = require("express-async-handler");
-const { User, Thought } = require("../models")
-const mongoose = require('mongoose');
-const { thoughts } = require("../utils/data");
+const { User } = require("../models");
+const mongoose = require("mongoose");
 
 
-const getUsers = asyncHandler( async (req, res) => {
-    res.json({ message: "testing controller function" });
+//GET all users
+const getUsers = asyncHandler(async (req, res) => {
     const users = await User.find();
     res.json({ users });
 });
@@ -23,7 +22,8 @@ const getSingleUser = async (req, res, next ) => {
     }
 };
 
-//post new user
+//post create new user
+// POST api/users
 const createUser =  async (req, res) => {
     try{
         const user = await User.create(req.body);
@@ -37,12 +37,12 @@ const createUser =  async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const updatedUser = await User.findOneAndUpdate(
-            { _id: req.params.idd },
+            { _id: req.params.id },
             req.body,
-            { new: true },
+            { new: true }
         );
 
-        if (!updateUser) {
+        if (!updatedUser) {
             res.status(404).json({ message: "No user with this id" })
         }
         res.json(updatedUser)
@@ -58,6 +58,7 @@ const deleteUser = async (req, res) => {
         if(!deleteUser) {
             return res.status(404).json({ message: "No user with that id"})
         }
+        res.json({ message: "user deleted sucessfully", deleteUser });
     } catch (err) {
         res.status(500).json(err);
     }
@@ -71,7 +72,7 @@ const addFriend = async (req, res) => {
         const updateUser = await User.findOneAndUpdate(
             { _id: id },
             { $addToSet: { friends: friendId }},
-            { new: true },
+            { new: true }
         );
         if(!updateUser) {
             return res.status(404).json({ message: 'User not found '});
@@ -92,11 +93,15 @@ const deleteFriend = async (req, res) => {
             { $pull: { friends: friendId }},
             { new: true }
         );
-        console.log(req.params)
+
         if(!updatedUser){
-            return res.status(404).json({ message: "User not found"});
+            return res.status(404).json({ message: "User nnot found"});
         }
-        res.json(updatedUser);
+        const { friends } = updatedUser;
+        res.json({
+            message: 'friend delted successfully',
+            friends: friends,
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json(err);
