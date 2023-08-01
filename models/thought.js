@@ -7,7 +7,7 @@ const thoughtSchema = new Schema(
             type: String,
             required: true,
             minlength:[1, "Thought text must be at least 1 charcter long"],
-            maxlength: [280, "Thought text"],
+            maxlength: [280, "Thought text cannot be longer than 280"],
         },
         createdAt: {
             type: Date, 
