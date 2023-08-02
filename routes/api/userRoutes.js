@@ -10,36 +10,14 @@ const {
     deleteFriend,
 } = require("../../controllers/userController");
 
-
+//get all users and create
 router.route("/").get(getUsers).post(createUser);
 
-//gets users
+//gets users, update and delete 
 router.route("/:id").get(getSingleUser).put(updateUser).delete(deleteUser);
 
 //add friend to user
-router.route("/:id/friends/:friendId").post(addFriend);
-router.route("/:id/friends/:friendId").delete(deleteFriend);
-
-
-// //get one user
-// router.get("/", (req, res) => {
-//     res.json({ message: "great job"});
-// });
-
-// //create user
-// router.post("/", (req, res) => {
-//     res.json({ message: "great work" });
-// });
-
-// //update user
-// router.put("/:id", (req, res) => {
-//     res.json({ message: `update user ${req.params.id}` });
-// });
-
-// //delete user
-
-// router.delete("/:id", (req, res) => {
-//     res.json({ message: `delete user ${req.params.id}` });
-// });
+router.route('/:id/friends/:friendId').post(addFriend);
+router.route('/:id/friends/:friendId').delete(deleteFriend);
 
 module.exports = router;

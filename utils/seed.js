@@ -1,4 +1,3 @@
-const { connect } = require('mongoose');
 const connection = require('../config/connection');
 const { User, Thought } = require('../models');
 const { users, thoughts } = require("./data");
@@ -23,7 +22,7 @@ connection.once('open', async () => {
             return thought;
         });
 
-        //insert though
+        //insert thought
         await Thought.create(thoughtsWithUserIds);
 
         console.log('Data seeded succsessfullly!');

@@ -4,10 +4,11 @@ const mongoose = require("mongoose");
 
 
 //GET all users
-const getUsers = asyncHandler(async (req, res) => {
-    const users = await User.find();
+const getUsers = async (req, res) => {
+    console.log("get users hit")
+    const users = await User.find().populate("thoughts");
     res.json({ users });
-});
+};
 
 //get one user
 const getSingleUser = async (req, res, next ) => {
